@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LapsyAI — Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Auth overlay -->
+  <div id="auth-overlay" class="auth-overlay">
+    <div class="auth-box">
+      <h2>Admin Panel</h2>
+      <p>Enter your admin password to manage provider settings.</p>
+      <div class="form-group">
+        <label for="admin-password">Password</label>
+        <input type="password" id="admin-password" placeholder="Enter admin password" autocomplete="current-password">
+      </div>
+      <div id="auth-error" class="hidden" style="color: var(--error); font-size:0.875rem; margin-bottom:12px;"></div>
+      <button class="btn btn-primary" id="auth-btn">Unlock</button>
+    </div>
+  </div>
+
+  <!-- Main admin UI (hidden until authenticated) -->
+  <div id="admin-ui" class="hidden">
+    <nav class="nav-bar">
+      <span class="nav-brand">LapsyAI — Admin</span>
+      <div class="nav-links">
+        <a href="/">Generate</a>
+        <a href="#" id="lock-btn">Lock</a>
+      </div>
+    </nav>
+
+    <main class="page">
+      <div class="container">
+        <div class="header">
+          <h1>Provider Config</h1>
+          <p>Configure image and video generation providers. Only one can be active at a time.</p>
+        </div>
+
+        <form id="admin-form">
+          <!-- Image Providers -->
+          <div class="card mb-24">
+            <div class="section-title">Image Provider</div>
+            <div id="image-providers"></div>
+          </div>
+
+          <!-- Video Providers -->
+          <div class="card mb-24">
+            <div class="section-title">Video Provider</div>
+            <div id="video-providers"></div>
+          </div>
+
+          <div id="save-error" class="hidden" style="color: var(--error); font-size:0.875rem; margin-bottom:12px;"></div>
+          <div id="save-success" class="hidden" style="color: var(--success); font-size:0.875rem; margin-bottom:12px;">
+            Configuration saved successfully.
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="save-btn">Save Configuration</button>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

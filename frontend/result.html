@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LapsyAI — Generating...</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav-bar">
+    <span class="nav-brand">LapsyAI</span>
+    <div class="nav-links">
+      <a href="/">New Video</a>
+      <a href="/admin.html">Admin</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <div class="container">
+      <div class="header">
+        <h1 id="page-title">Generating your timelapse</h1>
+        <p id="page-subtitle">This usually takes 2–10 minutes. You can leave this tab open.</p>
+      </div>
+
+      <!-- Status banner -->
+      <div id="status-banner" class="status-banner processing mb-24">
+        <div class="spinner" id="status-spinner"></div>
+        <span id="status-text">Initializing pipeline...</span>
+      </div>
+
+      <!-- Progress steps -->
+      <div class="card mb-24">
+        <div class="steps" id="steps">
+          <div class="step active" id="step-scenes">
+            <div class="step-icon">1</div>
+            <div class="step-label">Generating scenes</div>
+          </div>
+          <div class="step" id="step-images">
+            <div class="step-icon">2</div>
+            <div class="step-label" id="step-images-label">Creating images</div>
+          </div>
+          <div class="step" id="step-video">
+            <div class="step-icon">3</div>
+            <div class="step-label">Assembling video</div>
+          </div>
+          <div class="step" id="step-complete">
+            <div class="step-icon">✓</div>
+            <div class="step-label">Done</div>
+          </div>
+        </div>
+
+        <!-- Progress bar (shown during image step) -->
+        <div id="progress-section" class="hidden mt-24">
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+          </div>
+          <p class="progress-text mt-16" id="progress-text">0 / 0 images</p>
+        </div>
+      </div>
+
+      <!-- Scenes grid (shown once scenes are generated) -->
+      <div id="scenes-section" class="card mb-24 hidden">
+        <div class="section-title">Generated scenes</div>
+        <div class="scenes-grid" id="scenes-grid"></div>
+      </div>
+
+      <!-- Video result (shown on completion) -->
+      <div id="video-section" class="card video-section hidden">
+        <h2>Your timelapse is ready</h2>
+        <video id="result-video" controls playsinline></video>
+        <div class="video-actions">
+          <a id="download-link" class="btn btn-primary" download="timelapse.mp4">
+            Download MP4
+          </a>
+          <a href="/" class="btn btn-secondary">Create another</a>
+        </div>
+      </div>
+
+      <!-- Error section -->
+      <div id="error-section" class="hidden">
+        <div class="status-banner failed mb-24">
+          <span>&#9888;</span>
+          <span id="error-text">An error occurred during generation.</span>
+        </div>
+        <a href="/" class="btn btn-secondary">Try again</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/result.js"></script>
+</body>
+</html>

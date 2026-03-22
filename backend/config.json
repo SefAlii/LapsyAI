@@ -1,0 +1,42 @@
+{
+  "imageProviders": [
+    {
+      "name": "cloudflare",
+      "apiKey": "wQUk3CuQBY1ad7uI4bj9MvwSiJpCK8P7-sGU_-mI",
+      "modelId": "@cf/black-forest-labs/flux-1-schnell",
+      "isActive": false
+    },
+    {
+      "name": "replicate",
+      "apiKey": "",
+      "modelId": "stability-ai/sdxl:7762fd07cf82c948538e41f63f77d685e02b063e37291fae17ca8b956c1cfc6b",
+      "isActive": false
+    },
+    {
+      "name": "fal",
+      "apiKey": "3e6c2467-0d9d-4e2f-b5b4-6803bebe3a1b:105cc4da2cacc49468a5918140fd1299",
+      "modelId": "fal-ai/flux/schnell",
+      "isActive": true
+    }
+  ],
+  "videoProviders": [
+    {
+      "name": "fal",
+      "apiKey": "3e6c2467-0d9d-4e2f-b5b4-6803bebe3a1b:105cc4da2cacc49468a5918140fd1299",
+      "modelId": "fal-ai/kling-video/v1/standard/image-to-video",
+      "isActive": true
+    },
+    {
+      "name": "replicate",
+      "apiKey": "",
+      "modelId": "stability-ai/stable-video-diffusion:3f0457e4619daac51203dedb472816fd4af51f3149fa7a9e0b5ffcf1b8172438",
+      "isActive": false
+    },
+    {
+      "name": "runway",
+      "apiKey": "",
+      "modelId": "gen3a_turbo",
+      "isActive": false
+    }
+  ]
+}
