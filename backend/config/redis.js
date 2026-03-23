@@ -4,15 +4,19 @@ function getRedisConfig() {
     enableReadyCheck: false
   }
 
-  if (process.env.REDIS_URL) {
-    return { url: process.env.REDIS_URL, ...ioredisOpts }
+  const redisUrl = process.env.REDIS_URL || process.env.REDIS_PRIVATE_URL
+
+  if (redisUrl) {
+    console.log('[redis] Connecting via URL:', redisUrl.replace(/:\/\/.*@/, '://***@'))
+    return { url: redisUrl, ...ioredisOpts }
   }
-  return {
-    host: process.env.REDIS_HOST || '127.0.0.1',
-    port: parseInt(process.env.REDIS_PORT || '6379'),
-    password: process.env.REDIS_PASSWORD || undefined,
-    ...ioredisOpts
-  }
+
+  const host = process.env.REDIS_HOST || process.env.REDISHOST || '127.0.0.1'
+  const port = parseInt(process.env.REDIS_PORT || process.env.REDISPORT || '6379')
+  const password = process.env.REDIS_PASSWORD || process.env.REDISPASSWORD || undefined
+
+  console.log(`[redis] Connecting via host: ${host}:${port}`)
+  return { host, port, password, ...ioredisOpts }
 }
 
 module.exports = { getRedisConfig }
