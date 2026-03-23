@@ -2,14 +2,9 @@ const express = require('express')
 const router = express.Router()
 const Bull = require('bull')
 const { v4: uuidv4 } = require('uuid')
+const { getRedisConfig } = require('../config/redis')
 
-const pipelineQueue = new Bull('timelapse-pipeline', {
-  redis: {
-    host: process.env.REDIS_HOST || '127.0.0.1',
-    port: parseInt(process.env.REDIS_PORT || '6379'),
-    password: process.env.REDIS_PASSWORD || undefined
-  }
-})
+const pipelineQueue = new Bull('timelapse-pipeline', { redis: getRedisConfig() })
 
 const VALID_DURATIONS = [15, 30, 60, 90]
 const VALID_QUALITIES = ['standard', 'high', 'ultra']
