@@ -11,6 +11,11 @@ const adminRouter = require('./routes/admin')
 const app = express()
 const PORT = process.env.PORT || 3000
 
+console.log('[env] ADMIN_PASSWORD set:', !!process.env.ADMIN_PASSWORD)
+console.log('[env] OPENAI_API_KEY set:', !!process.env.OPENAI_API_KEY)
+console.log('[env] FAL_KEY set:', !!process.env.FAL_KEY)
+console.log('[env] REDIS_URL set:', !!process.env.REDIS_URL)
+
 // ─── Middleware ───────────────────────────────────────────────────────────────
 
 app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }))
