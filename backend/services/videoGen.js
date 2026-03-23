@@ -1,14 +1,13 @@
 const axios = require('axios')
-const fs = require('fs')
 
-async function assembleVideo(imageUrls, durations, quality, providerConfig, imagePaths = []) {
+async function assembleVideo(imageUrls, durations, quality, providerConfig) {
   switch (providerConfig.name) {
     case 'fal':
-      return assembleFal(imageUrls, durations, quality, providerConfig, imagePaths)
+      return assembleFal(imageUrls, durations, quality, providerConfig)
     case 'replicate':
-      return assembleReplicate(imageUrls, durations, quality, providerConfig, imagePaths)
+      return assembleReplicate(imageUrls, durations, quality, providerConfig)
     case 'runway':
-      return assembleRunway(imageUrls, durations, quality, providerConfig, imagePaths)
+      return assembleRunway(imageUrls, durations, quality, providerConfig)
     default:
       throw new Error(`Unknown video provider: ${providerConfig.name}`)
   }
@@ -16,7 +15,7 @@ async function assembleVideo(imageUrls, durations, quality, providerConfig, imag
 
 // ─── Fal.ai ───────────────────────────────────────────────────────────────────
 
-async function assembleFal(imageUrls, durations, quality, config, imagePaths = []) {
+async function assembleFal(imageUrls, durations, quality, config) {
   const apiKey = config.apiKey || process.env.FAL_KEY
   if (!apiKey) throw new Error('Fal.ai API key not configured')
 
@@ -34,7 +33,7 @@ async function assembleFal(imageUrls, durations, quality, config, imagePaths = [
   let input
   if (isKlingStyle) {
     input = {
-      image_url: imageToDataUrl(imagePaths[0]),
+      image_url: imageUrls[0],
       prompt: 'cinematic timelapse, smooth motion, photorealistic, high quality',
       duration: String(Math.min(Math.round(totalDuration), 10)),
       aspect_ratio: '9:16'
@@ -45,7 +44,7 @@ async function assembleFal(imageUrls, durations, quality, config, imagePaths = [
     const fps = 6
     console.log('fps value:', typeof fps, fps)
     input = {
-      image_url: imageToDataUrl(imagePaths[0]),
+      image_url: imageUrls[0],
       motion_bucket_id: 127,
       fps
     }
@@ -93,7 +92,7 @@ async function assembleFal(imageUrls, durations, quality, config, imagePaths = [
 
 // ─── Replicate ────────────────────────────────────────────────────────────────
 
-async function assembleReplicate(imageUrls, durations, quality, config, imagePaths = []) {
+async function assembleReplicate(imageUrls, durations, quality, config) {
   const apiKey = config.apiKey || process.env.REPLICATE_API_TOKEN
   if (!apiKey) throw new Error('Replicate API key not configured')
 
@@ -109,7 +108,7 @@ async function assembleReplicate(imageUrls, durations, quality, config, imagePat
     {
       version: config.modelId,
       input: {
-        images: imagePaths.map(p => imageToDataUrl(p)),
+        images: imageUrls,
         fps,
         motion_bucket_id: quality === 'ultra' ? 180 : 127
       }
@@ -147,7 +146,7 @@ async function assembleReplicate(imageUrls, durations, quality, config, imagePat
 
 // ─── RunwayML ─────────────────────────────────────────────────────────────────
 
-async function assembleRunway(imageUrls, durations, quality, config, imagePaths = []) {
+async function assembleRunway(imageUrls, durations, quality, config) {
   const apiKey = config.apiKey || process.env.RUNWAY_API_KEY
   if (!apiKey) throw new Error('RunwayML API key not configured')
 
@@ -162,7 +161,7 @@ async function assembleRunway(imageUrls, durations, quality, config, imagePaths 
     'https://api.dev.runwayml.com/v1/image_to_video',
     {
       model: config.modelId || 'gen3a_turbo',
-      promptImage: imageToDataUrl(imagePaths[0]),
+      promptImage: imageUrls[0],
       promptText: 'cinematic timelapse, smooth motion, high quality',
       duration: Math.min(durations.reduce((a, b) => a + b, 0), 10),
       ratio: '720:1280'
@@ -196,11 +195,6 @@ async function assembleRunway(imageUrls, durations, quality, config, imagePaths 
 
   const videoRes = await axios.get(videoUrl, { responseType: 'arraybuffer', timeout: 180000 })
   return Buffer.from(videoRes.data)
-}
-
-function imageToDataUrl(imagePath) {
-  const buffer = fs.readFileSync(imagePath)
-  return `data:image/png;base64,${buffer.toString('base64')}`
 }
 
 function sleep(ms) {

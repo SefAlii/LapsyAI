@@ -118,7 +118,7 @@ pipelineQueue.process(async (job) => {
 
   let videoBuffer
   try {
-    videoBuffer = await assembleVideo(imageUrls, durations, quality, videoProvider, imagePaths)
+    videoBuffer = await assembleVideo(imageUrls, durations, quality, videoProvider)
   } catch (err) {
     await job.update({ ...job.data, error: `Video assembly failed: ${err.message}` })
     throw err
